@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
           children: <Widget>[
             ListTile(
               title: Text('Apple'),
+              subtitle: Text('\$16.8'),
               trailing: ButtonTheme.fromButtonThemeData(
                 data: ButtonTheme.of(context).copyWith(
                   minWidth: 24.0,
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
                   textTheme: ButtonTextTheme.primary,
                 ),
                 child: RaisedButton(
-                  child: Icon(Icons.add, size: 12),
+                  child: Icon(Icons.add, size: 18),
                   shape: CircleBorder(),
                   onPressed: () {
                     return true;
