@@ -1,12 +1,55 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'menu_item.dart';
+part of 'menu_items.dart';
 
 // **************************************************************************
 // BuiltValueGenerator
 // **************************************************************************
 
+Serializer<MenuItems> _$menuItemsSerializer = new _$MenuItemsSerializer();
 Serializer<MenuItem> _$menuItemSerializer = new _$MenuItemSerializer();
+
+class _$MenuItemsSerializer implements StructuredSerializer<MenuItems> {
+  @override
+  final Iterable<Type> types = const [MenuItems, _$MenuItems];
+  @override
+  final String wireName = 'MenuItems';
+
+  @override
+  Iterable serialize(Serializers serializers, MenuItems object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object>[
+      'menuItems',
+      serializers.serialize(object.menuItems,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(MenuItem)])),
+    ];
+
+    return result;
+  }
+
+  @override
+  MenuItems deserialize(Serializers serializers, Iterable serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new MenuItemsBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'menuItems':
+          result.menuItems.replace(serializers.deserialize(value,
+              specifiedType: const FullType(
+                  BuiltList, const [const FullType(MenuItem)])) as BuiltList);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
 
 class _$MenuItemSerializer implements StructuredSerializer<MenuItem> {
   @override
@@ -68,6 +111,98 @@ class _$MenuItemSerializer implements StructuredSerializer<MenuItem> {
     }
 
     return result.build();
+  }
+}
+
+class _$MenuItems extends MenuItems {
+  @override
+  final BuiltList<MenuItem> menuItems;
+
+  factory _$MenuItems([void updates(MenuItemsBuilder b)]) =>
+      (new MenuItemsBuilder()..update(updates)).build();
+
+  _$MenuItems._({this.menuItems}) : super._() {
+    if (menuItems == null) {
+      throw new BuiltValueNullFieldError('MenuItems', 'menuItems');
+    }
+  }
+
+  @override
+  MenuItems rebuild(void updates(MenuItemsBuilder b)) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  MenuItemsBuilder toBuilder() => new MenuItemsBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is MenuItems && menuItems == other.menuItems;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, menuItems.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('MenuItems')
+          ..add('menuItems', menuItems))
+        .toString();
+  }
+}
+
+class MenuItemsBuilder implements Builder<MenuItems, MenuItemsBuilder> {
+  _$MenuItems _$v;
+
+  ListBuilder<MenuItem> _menuItems;
+  ListBuilder<MenuItem> get menuItems =>
+      _$this._menuItems ??= new ListBuilder<MenuItem>();
+  set menuItems(ListBuilder<MenuItem> menuItems) =>
+      _$this._menuItems = menuItems;
+
+  MenuItemsBuilder();
+
+  MenuItemsBuilder get _$this {
+    if (_$v != null) {
+      _menuItems = _$v.menuItems?.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(MenuItems other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$MenuItems;
+  }
+
+  @override
+  void update(void updates(MenuItemsBuilder b)) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$MenuItems build() {
+    _$MenuItems _$result;
+    try {
+      _$result = _$v ?? new _$MenuItems._(menuItems: menuItems.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'menuItems';
+        menuItems.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'MenuItems', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
   }
 }
 

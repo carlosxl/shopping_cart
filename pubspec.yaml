@@ -18,6 +18,7 @@ dependencies:
 
   built_collection: ^4.1.0
   built_value: ^6.2.0
+  rxdart: ^0.20.0
 
 
   # The following adds the Cupertino Icons font to your application.

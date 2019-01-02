@@ -1,4 +1,4 @@
-[{"id":1,"label":"Wild Einkorn","description":"incubate vertical ROI","priceString":"$7.72"},
+{"menuItems": [{"id":1,"label":"Wild Einkorn","description":"incubate vertical ROI","priceString":"$7.72"},
 {"id":2,"label":"Broadleaf Monkeyflower","description":"morph efficient vortals","priceString":"$9.91"},
 {"id":3,"label":"Chinese Persimmon","description":"orchestrate mission-critical mindshare","priceString":"$16.08"},
 {"id":4,"label":"Deer Fern","description":"scale compelling deliverables","priceString":"$48.91"},
@@ -47,4 +47,4 @@
 {"id":47,"label":"Wright's Rosette Grass","description":"morph open-source metrics","priceString":"$61.19"},
 {"id":48,"label":"Oneseed Pussypaws","description":"streamline seamless bandwidth","priceString":"$66.29"},
 {"id":49,"label":"Greenflower Indian Mallow","description":"matrix synergistic schemas","priceString":"$80.73"},
-{"id":50,"label":"James' Buckwheat","description":"target viral deliverables","priceString":"$72.15"}]
+{"id":50,"label":"James' Buckwheat","description":"target viral deliverables","priceString":"$72.15"}]}

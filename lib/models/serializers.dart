@@ -1,11 +1,13 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
 
-import 'menu_item.dart';
+import 'menu_items.dart';
 
 part 'serializers.g.dart';
 
 @SerializersFor(const [
+  MenuItems,
   MenuItem,
 ])
 final Serializers serializers =
