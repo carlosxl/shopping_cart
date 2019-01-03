@@ -36,10 +36,23 @@ class _MenuScreenState extends State<MenuScreen> {
           return buildList(snapshot);
         },
       ),
+      bottomNavigationBar: BottomAppBar(
+        child: Text('21'),
+        shape: CircularNotchedRectangle(),
+        notchMargin: 4.0,
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.shopping_cart),
+        onPressed: () => true,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
   Widget buildList(AsyncSnapshot<MenuItems> snapshot) {
+    if (!snapshot.hasData) {
+      return Center(child: CircularProgressIndicator());
+    }
     return ListView.builder(
       itemCount: snapshot.data.menuItems.length,
       itemBuilder: (BuildContext context, int index) {
