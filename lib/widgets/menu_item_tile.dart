@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:shopping_cart/models/menu_items.dart';
+import 'package:shopping_cart/screens/menu.dart' show InheritedMenuScreen;
 
 class MenuItemTile extends StatelessWidget {
   final MenuItem item;
@@ -23,7 +24,7 @@ class MenuItemTile extends StatelessWidget {
           child: Icon(Icons.add, size: 18),
           shape: CircleBorder(),
           onPressed: () {
-            return true;
+            InheritedMenuScreen.of(context).bloc.addition.add(item);
           },
         ),
       ),

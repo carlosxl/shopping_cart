@@ -1,21 +1,35 @@
+import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:shopping_cart/models/cart.dart';
 import 'package:shopping_cart/models/menu_items.dart';
 
 class CartBloc {
-  final _cartSubj = BehaviorSubject<Cart>();
+  final _cart = Cart();
 
-  Observable<Cart> get cart => _cartSubj.stream;
+  final _additionController = StreamController<MenuItem>();
+  Sink<MenuItem> get addition => _additionController.sink;
 
-  addToCart(MenuItem item, int count) async {
-    MenuItems menuItems = await _repository.fetchMenuItems();
-    _menuFetcher.sink.add(menuItems);
+  final _itemCountSubject = BehaviorSubject<int>();
+  Stream<int> get itemCount => _itemCountSubject.stream;
+
+  final _totalPriceSubject = BehaviorSubject<String>();
+  Stream<String> get totalPrice => _totalPriceSubject.stream;
+
+  CartBloc() {
+    _additionController.stream.listen(_handle);
+  }
+
+  void _handle(MenuItem item) {
+    _cart.add(item);
+    _itemCountSubject.add(_cart.itemCount);
+    _totalPriceSubject.add(_cart.totalPrice);
   }
 
   dispose() {
-    _menuFetcher.close();
+    _additionController.close();
+    _itemCountSubject.close();
   }
 }
 
-final bloc = MenuBloc();
+final cartBloc = CartBloc();

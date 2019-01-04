@@ -19,4 +19,4 @@ class MenuBloc {
   }
 }
 
-final bloc = MenuBloc();
+final menuBloc = MenuBloc();
