@@ -28,7 +28,7 @@ class _MenuScreenState extends State<MenuScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Menu'),
+        title: Text('饱了么'),
       ),
       body: StreamBuilder(
         stream: bloc.menuItems,
@@ -37,15 +37,19 @@ class _MenuScreenState extends State<MenuScreen> {
         },
       ),
       bottomNavigationBar: BottomAppBar(
-        child: Text('21'),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 0, 0),
+          child: Text('Total: \$21.00', style: TextStyle(fontSize: 24.0, color: Theme.of(context).primaryColorDark),),
+        ),
         shape: CircularNotchedRectangle(),
         notchMargin: 4.0,
+        color: Theme.of(context).dialogBackgroundColor,
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.shopping_cart),
         onPressed: () => true,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
 
