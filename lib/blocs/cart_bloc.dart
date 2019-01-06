@@ -10,25 +10,42 @@ class CartBloc {
   final _additionController = StreamController<MenuItem>();
   Sink<MenuItem> get addition => _additionController.sink;
 
+  final _removalController = StreamController<MenuItem>();
+  Sink<MenuItem> get removal => _removalController.sink;
+
   final _itemCountSubject = BehaviorSubject<int>();
   Stream<int> get itemCount => _itemCountSubject.stream;
 
   final _totalPriceSubject = BehaviorSubject<String>();
   Stream<String> get totalPrice => _totalPriceSubject.stream;
 
+  final _cartSubject = BehaviorSubject<Cart>();
+  Stream<Cart> get cart => _cartSubject.stream;
+
   CartBloc() {
-    _additionController.stream.listen(_handle);
+    _additionController.stream.listen(_handleAddition);
+    _removalController.stream.listen(_handleRemoval);
   }
 
-  void _handle(MenuItem item) {
+  void _handleAddition(MenuItem item) {
     _cart.add(item);
+
     _itemCountSubject.add(_cart.itemCount);
     _totalPriceSubject.add(_cart.totalPrice);
+    _cartSubject.add(_cart);
+  }
+
+  void _handleRemoval(MenuItem item) {
+    _cart.remove(item);
+
+    _itemCountSubject.add(_cart.itemCount);
+    _totalPriceSubject.add(_cart.totalPrice);
+    _cartSubject.add(_cart);
   }
 
   dispose() {
     _additionController.close();
-    _itemCountSubject.close();
+    _removalController.close();
   }
 }
 
