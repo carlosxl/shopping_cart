@@ -31,7 +31,7 @@ class _MenuScreenState extends State<MenuScreen> {
       bloc: cartBloc,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('饱了么'),
+          title: Text('Are You Full?'),
         ),
         body: StreamBuilder(
           stream: menuBloc.menuItems,
@@ -41,26 +41,37 @@ class _MenuScreenState extends State<MenuScreen> {
         ),
         bottomNavigationBar: BottomAppBar(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 0, 0),
+            padding: const EdgeInsets.all(16.0),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
               children: <Widget>[
                 StreamBuilder(
                   stream: cartBloc.totalPrice,
-                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    TextStyle style = TextStyle(fontSize: 24.0, color: Theme.of(context).primaryColorDark);
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    TextStyle style = TextStyle(
+                        fontSize: 24.0,
+                        color: Theme.of(context).primaryColorDark);
                     if (snapshot.hasData) {
-                      return Text('总价：${snapshot.data}', style: style);
+                      return Text('Total：${snapshot.data} ',
+                          style: style); // trailing white space needed.
                     }
-                    return Text('尚未添加物品', style: style);
+                    return Text('Add Something to your cart', style: style);
                   },
                 ),
                 StreamBuilder(
                   stream: cartBloc.itemCount,
                   builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-                    TextStyle style = TextStyle(fontSize: 12.0, color: Theme.of(context).primaryColorDark);
+                    TextStyle style = TextStyle(
+                        fontSize: 12.0,
+                        color: Theme.of(context).primaryColorDark);
                     if (snapshot.hasData) {
-                      return Text('(${snapshot.data}件物品)', style: style);
+                      if (snapshot.data == 1) {
+                        return Text('(${snapshot.data} item)', style: style);
+                      } else {
+                        return Text('(${snapshot.data} items)', style: style);
+                      }
                     }
                     return Text('', style: style);
                   },
