@@ -22,6 +22,8 @@ abstract class MenuItem implements Built<MenuItem, MenuItemBuilder> {
 
   String get priceString;
 
+  double get price => double.parse(priceString.replaceFirst('\$', ''));
+
   MenuItem._();
   factory MenuItem([updates(MenuItemBuilder b)]) = _$MenuItem;
   static Serializer<MenuItem> get serializer => _$menuItemSerializer;
