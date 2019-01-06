@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shopping_cart/blocs/menu_bloc.dart';
 import 'package:shopping_cart/blocs/cart_bloc.dart';
 import 'package:shopping_cart/models/menu_items.dart';
+import 'package:shopping_cart/widgets/menu_app_bar.dart';
 import 'package:shopping_cart/widgets/menu_item_tile.dart';
 
 class MenuScreen extends StatefulWidget {
@@ -39,50 +40,7 @@ class _MenuScreenState extends State<MenuScreen> {
             return buildList(snapshot);
           },
         ),
-        bottomNavigationBar: BottomAppBar(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
-              children: <Widget>[
-                StreamBuilder(
-                  stream: cartBloc.totalPrice,
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    TextStyle style = TextStyle(
-                        fontSize: 24.0,
-                        color: Theme.of(context).primaryColorDark);
-                    if (snapshot.hasData) {
-                      return Text('Total：${snapshot.data} ',
-                          style: style); // trailing white space needed.
-                    }
-                    return Text('Add Something to your cart', style: style);
-                  },
-                ),
-                StreamBuilder(
-                  stream: cartBloc.itemCount,
-                  builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-                    TextStyle style = TextStyle(
-                        fontSize: 12.0,
-                        color: Theme.of(context).primaryColorDark);
-                    if (snapshot.hasData) {
-                      if (snapshot.data == 1) {
-                        return Text('(${snapshot.data} item)', style: style);
-                      } else {
-                        return Text('(${snapshot.data} items)', style: style);
-                      }
-                    }
-                    return Text('', style: style);
-                  },
-                ),
-              ],
-            ),
-          ),
-          color: Theme.of(context).dialogBackgroundColor,
-          notchMargin: 6.0,
-          shape: CircularNotchedRectangle(),
-        ),
+        bottomNavigationBar: MenuAppBar(),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.shopping_cart),
           onPressed: () => true,
