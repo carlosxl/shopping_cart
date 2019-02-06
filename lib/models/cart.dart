@@ -23,6 +23,10 @@ class Cart {
     return entry;
   }
 
+  CartEntry getEntry(MenuItem item) {
+    return _cartContent[item];
+  }
+
   int get itemCount => _cartContent.isEmpty
       ? 0
       : _cartContent.values.map((entry) => entry.count).reduce((x, y) => x + y);
@@ -34,8 +38,8 @@ class Cart {
           .reduce((x, y) => x + y)
           .toStringAsFixed(2);
 
-  CartEntry getEntry(MenuItem item) {
-    return _cartContent[item];
+  Iterable<CartEntry> get cartContent {
+    return _cartContent.values;
   }
 }
 

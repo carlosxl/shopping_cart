@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:shopping_cart/screens/menu.dart';
+import 'package:shopping_cart/screens/cart.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,7 +13,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MenuScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => MenuScreen(),
+        '/cart': (context) => CartScreen(),
+      },
     );
   }
 }

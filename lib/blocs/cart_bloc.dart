@@ -13,13 +13,13 @@ class CartBloc {
   final _removalController = StreamController<MenuItem>();
   Sink<MenuItem> get removal => _removalController.sink;
 
-  final _itemCountSubject = BehaviorSubject<int>();
+  final _itemCountSubject = BehaviorSubject<int>(seedValue: 0);
   Stream<int> get itemCount => _itemCountSubject.stream;
 
-  final _totalPriceSubject = BehaviorSubject<String>();
+  final _totalPriceSubject = BehaviorSubject<String>(seedValue: '0.00');
   Stream<String> get totalPrice => _totalPriceSubject.stream;
 
-  final _cartSubject = BehaviorSubject<Cart>();
+  final _cartSubject = BehaviorSubject<Cart>(seedValue: Cart());
   Stream<Cart> get cart => _cartSubject.stream;
 
   CartBloc() {

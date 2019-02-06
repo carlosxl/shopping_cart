@@ -43,7 +43,9 @@ class _MenuScreenState extends State<MenuScreen> {
         bottomNavigationBar: MenuAppBar(),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.shopping_cart),
-          onPressed: () => true,
+          onPressed: () {
+            Navigator.pushNamed((context), '/cart');
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       ),
