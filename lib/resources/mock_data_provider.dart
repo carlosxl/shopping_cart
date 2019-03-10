@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/services.dart' show rootBundle;
@@ -12,3 +13,5 @@ class MockMenuProvider {
     return serializers.deserializeWith(MenuItems.serializer, parsed);
   }
 }
+
+MockMenuProvider mockMenuProvider =MockMenuProvider();

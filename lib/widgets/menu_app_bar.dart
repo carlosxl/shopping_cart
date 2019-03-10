@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:shopping_cart/screens/menu.dart';
+import 'package:shopping_cart/framework/widgets.dart';
+import 'package:shopping_cart/blocs/cart_bloc.dart';
 
 class MenuAppBar extends StatelessWidget {
   @override
@@ -46,19 +47,19 @@ class BarContentState extends State<BarContent> with TickerProviderStateMixin {
     final TextStyle style =
         TextStyle(fontSize: 24.0, color: Theme.of(context).primaryColorDark);
 
+    final CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.baseline,
       textBaseline: TextBaseline.alphabetic,
       children: <Widget>[
         Text('Total: ', style: style),
-        StreamBuilder(
-          stream: InheritedMenuScreen.of(context).bloc.itemCount,
-          builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-            if (snapshot.hasData) {
-              _controller
-                ..reset()
-                ..forward();
-            }
+        BlocEventStateBuilder<CartEvent, CartState>(
+          bloc: cartBloc,
+          builder: (BuildContext context, CartState state) {
+            _controller
+              ..reset()
+              ..forward();
 
             return FadeTransition(
               opacity: _controller,
@@ -66,37 +67,14 @@ class BarContentState extends State<BarContent> with TickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.baseline,
                 textBaseline: TextBaseline.alphabetic,
                 children: <Widget>[
-                  StreamBuilder(
-                    stream: InheritedMenuScreen.of(context).bloc.totalPrice,
-                    builder:
-                        (BuildContext context, AsyncSnapshot<String> snapshot) {
-                      if (snapshot.hasData) {
-                        return Text(
-                          '${snapshot.data} ',
-                          style: style,
-                        );
-                      }
-                      return Text(
-                        '\$0.00 ',
-                        style: style,
-                      );
-                    },
+                  Text(
+                    '${state.totalPrice} ',
+                    style: style,
                   ),
-                  StreamBuilder(
-                    stream: InheritedMenuScreen.of(context).bloc.itemCount,
-                    builder:
-                        (BuildContext context, AsyncSnapshot<int> snapshot) {
-                      if (snapshot.hasData) {
-                        String itemPluralized =
-                            snapshot.data == 1 ? 'item' : 'items';
-                        return Text(
-                          '(${snapshot.data} $itemPluralized)',
-                          style: style.copyWith(fontSize: 12.0),
-                        );
-                      }
-                      return Text('', style: style);
-                    },
-                  ),
+                  Text(
+                    '(${state.totalItems} ${state.totalItems == 1 ? 'item' : 'items'})',
+                    style: style.copyWith(fontSize: 12.0),
+                  )
                 ],
               ),
             );

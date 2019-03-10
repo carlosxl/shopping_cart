@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:shopping_cart/models/cart.dart';
+import 'package:shopping_cart/framework/widgets.dart';
+import 'package:shopping_cart/blocs/cart_bloc.dart';
 import 'package:shopping_cart/models/menu_items.dart';
-import 'package:shopping_cart/screens/menu.dart' show InheritedMenuScreen;
 
 class MenuItemTile extends StatelessWidget {
   final MenuItem item;
@@ -27,9 +27,11 @@ class MenuItemTile extends StatelessWidget {
   }
 
   Widget buildAmountSelector(BuildContext context) {
-    return StreamBuilder(
-      stream: InheritedMenuScreen.of(context).bloc.cart,
-      builder: (BuildContext context, AsyncSnapshot<Cart> snapshot) {
+    CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
+
+    return BlocEventStateBuilder<CartEvent, CartState>(
+      bloc: cartBloc,
+      builder: (BuildContext context, CartState state) {
         Widget removeButton = RaisedButton(
           child: Icon(
             Icons.remove,
@@ -40,7 +42,7 @@ class MenuItemTile extends StatelessWidget {
               side: BorderSide(
                   color: Theme.of(context).primaryColor, width: 1.0)),
           onPressed: () {
-            InheritedMenuScreen.of(context).bloc.removal.add(item);
+            cartBloc.emitEvent(CartEventAddition(item, 1));
           },
           color: Colors.white,
         );
@@ -49,16 +51,17 @@ class MenuItemTile extends StatelessWidget {
           child: Icon(Icons.add, size: 18),
           shape: CircleBorder(),
           onPressed: () {
-            InheritedMenuScreen.of(context).bloc.addition.add(item);
+            cartBloc.emitEvent(CartEventAddition(item, 1));
           },
         );
 
         List<Widget> selector = [addButton];
 
-        if (snapshot.hasData && snapshot.data.getEntry(item) != null) {
+        if (state.content.containsKey(item)) {
           selector = [
             removeButton,
-            Text('${snapshot.data.getEntry(item).count}', style: TextStyle(fontSize: 16.0)),
+            Text('${state.content[item]}',
+                style: TextStyle(fontSize: 16.0)),
             addButton
           ];
         }

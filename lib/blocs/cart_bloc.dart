@@ -46,11 +46,14 @@ class CartState extends BlocState {
 
   int get totalItems => content.values.fold(0, (sum, val) => sum + val);
 
-  double get totalPrice => content.entries
-      .fold(0.00, (sum, entry) => sum + entry.key.price * entry.value);
+  String get totalPrice => content.entries
+      .fold<double>(0.00, (sum, entry) => sum + entry.key.price * entry.value)
+      .toStringAsFixed(2);
 }
 
 class CartBloc extends BlocBase<CartEvent, CartState> {
+  CartBloc() : super(initialState: CartState.initial());
+
   @override
   Stream<CartState> eventHandler(CartEvent event, CartState state) async* {
     if (event is CartEventAddition) {

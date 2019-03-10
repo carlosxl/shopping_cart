@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 
 import 'package:shopping_cart/blocs/cart_bloc.dart';
-import 'package:shopping_cart/models/cart.dart';
+import 'package:shopping_cart/framework/widgets.dart';
+import 'package:shopping_cart/models/menu_items.dart';
 
 class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Cart'),
       ),
-      body: StreamBuilder(
-        stream: cartBloc.cart,
-        builder: (BuildContext context, AsyncSnapshot<Cart> snapshot) {
-          if (!snapshot.hasData) {
-            return CircularProgressIndicator();
-          }
+      body: BlocEventStateBuilder<CartEvent, CartState>(
+        bloc: cartBloc,
+        builder: (BuildContext context, CartState state) {
           List<EntryCard> cards = [];
-          for (CartEntry entry in snapshot.data.cartContent) {
-            cards.add(EntryCard(entry));
-          }
+          state.content
+              .forEach((item, count) => cards.add(EntryCard(item, count)));
           return Column(
             children: cards,
           );
@@ -33,33 +31,28 @@ class CartScreen extends StatelessWidget {
             textBaseline: TextBaseline.alphabetic,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              StreamBuilder(
-                stream: cartBloc.totalPrice,
-                builder: (context, snapshot) {
+              BlocEventStateBuilder<CartEvent, CartState>(
+                bloc: cartBloc,
+                builder: (context, state) {
                   final TextStyle style = TextStyle(
                       fontSize: 24.0,
                       color: Theme.of(context).primaryColorDark);
-                  if (!snapshot.hasData) {
-                    return CircularProgressIndicator();
-                  }
                   return Text(
-                    "Total: \$${snapshot.data}",
+                    "Total: \$${state.totalPrice}",
                     style: style,
                   );
                 },
               ),
-              StreamBuilder(
-                stream: cartBloc.itemCount,
-                builder: (context, snapshot) {
+              BlocEventStateBuilder<CartEvent, CartState>(
+                bloc: cartBloc,
+                builder: (context, state) {
                   final TextStyle style = TextStyle(
                       fontSize: 24.0,
                       color: Theme.of(context).primaryColorDark);
-                  if (!snapshot.hasData) {
-                    return CircularProgressIndicator();
-                  }
-                  String itemPluralized = snapshot.data == 1 ? 'item' : 'items';
+                  String itemPluralized =
+                      state.totalItems == 1 ? 'item' : 'items';
                   return Text(
-                    '${snapshot.data} $itemPluralized',
+                    '${state.totalItems} $itemPluralized',
                     style: style,
                   );
                 },
@@ -76,9 +69,10 @@ class CartScreen extends StatelessWidget {
 }
 
 class EntryCard extends StatelessWidget {
-  final CartEntry entry;
+  final MenuItem item;
+  final int count;
 
-  EntryCard(this.entry);
+  EntryCard(this.item, this.count);
 
   @override
   Widget build(BuildContext context) {
@@ -86,14 +80,35 @@ class EntryCard extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          ListTile(
-            leading: Icon(Icons.check),
-            title: Text(entry.item.label),
-            subtitle: Text(entry.item.description),
-            trailing: Text(entry.item.priceString),
+          BlocEventStateBuilder(
+            bloc: BlocProvider.of<CartBloc>(context),
+            builder: (BuildContext context, CartState state) {
+              return ListTile(
+                leading: Icon(Icons.check),
+                title: new CartLabel(item: item, count: state.content[item]),
+                subtitle: Text(item.description),
+                trailing: Text(item.priceString),
+              );
+            },
           ),
         ],
       ),
     );
+  }
+}
+
+class CartLabel extends StatelessWidget {
+  const CartLabel({
+    Key key,
+    @required this.item,
+    @required this.count,
+  }) : super(key: key);
+
+  final MenuItem item;
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text('${item.label} x $count');
   }
 }
